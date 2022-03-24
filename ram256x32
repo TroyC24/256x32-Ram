@@ -1,0 +1,36 @@
+module ram256x32(D,F,Adr,RW,clk);
+	input [31:0]D;
+	input [7:0]Adr;
+	input clk,RW;
+	output [31:0]F;
+	
+	wire [3:0]CS;
+	decoder inst0 (Adr[7:6],CS);
+	
+	wire [31:0]out0,out1,out2,out3;
+	
+	ram64x8 inst00 (D[31:24],out0[31:24],Adr[5:0],CS[0],RW,clk);
+	ram64x8 inst01 (D[23:16],out0[23:16],Adr[5:0],CS[0],RW,clk);
+	ram64x8 inst02 (D[15:8], out0[15:8], Adr[5:0],CS[0],RW,clk);
+	ram64x8 inst03 (D[7:0],  out0[7:0],  Adr[5:0],CS[0],RW,clk);
+	
+	ram64x8 inst10 (D[31:24],out1[31:24],Adr[5:0],CS[1],RW,clk);
+	ram64x8 inst11 (D[23:16],out1[23:16],Adr[5:0],CS[1],RW,clk);
+	ram64x8 inst12 (D[15:8], out1[15:8], Adr[5:0],CS[1],RW,clk);
+	ram64x8 inst13 (D[7:0],  out1[7:0],  Adr[5:0],CS[1],RW,clk);
+	
+	ram64x8 inst20 (D[31:24],out2[31:24],Adr[5:0],CS[2],RW,clk);
+	ram64x8 inst21 (D[23:16],out2[23:16],Adr[5:0],CS[2],RW,clk);
+	ram64x8 inst22 (D[15:8], out2[15:8], Adr[5:0],CS[2],RW,clk);
+	ram64x8 inst23 (D[7:0],  out2[7:0],  Adr[5:0],CS[2],RW,clk);
+	
+	ram64x8 inst30 (D[31:24],out3[31:24],Adr[5:0],CS[3],RW,clk);
+	ram64x8 inst31 (D[23:16],out3[23:16],Adr[5:0],CS[3],RW,clk);
+	ram64x8 inst32 (D[15:8], out3[15:8], Adr[5:0],CS[3],RW,clk);
+	ram64x8 inst33 (D[7:0],  out3[7:0],  Adr[5:0],CS[3],RW,clk);
+	
+	assign F = (CS[0])? out0:32'bz;
+	assign F = (CS[1])? out1:32'bz;
+	assign F = (CS[2])? out2:32'bz;
+	assign F = (CS[3])? out3:32'bz;
+endmodule
