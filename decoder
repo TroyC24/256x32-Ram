@@ -1,0 +1,13 @@
+module decoder (S,F);
+	input [1:0] S;
+	output reg[3:0] F;
+	
+	always @(S) begin
+	case (S)
+		2'b00: F <= 4'b0001;
+		2'b01: F <= 4'b0010;
+		2'b10: F <= 4'b0100;
+		2'b11: F <= 4'b1000;
+	endcase
+	end
+endmodule
