@@ -1,0 +1,19 @@
+module ram64x8 (D,F,Adr,CS,RW,clk);
+	input [5:0] Adr;
+	input CS,RW,clk;
+	input [7:0] D;
+	output [7:0] F;
+	
+	reg [7:0] mem_array [5:0];
+	reg [7:0] mem_out;
+	
+	always @(posedge clk)
+	begin
+		if(CS&RW)
+			mem_array[Adr] <= D;
+		if(RW==0)
+			mem_out <= mem_array[Adr];
+	end
+	
+	assign F = (CS)? mem_out:8'b0;
+endmodule
