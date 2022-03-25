@@ -1,0 +1,31 @@
+`timescale 1ns/1ps
+module ramTB();
+	reg [31:0]D;
+	reg [7:0]Adr;
+	reg clk,RW;
+	wire [31:0]F;
+	
+	ram256x32 dut (D,F,Adr,RW,clk);
+	
+	initial
+		clk = 1'b0;
+	always begin
+		#5 clk = (clk == 0)? 1:0;
+	end
+	
+	initial begin
+	RW = 1;
+	#2560 RW = 0;
+	end
+	
+	initial
+	Adr <= 8'b0;
+	always @(negedge clk) begin
+        D = {$random, $random};
+        Adr = Adr+8'b1;
+    end
+	
+	initial begin
+		#5120 $stop;
+	end
+endmodule
